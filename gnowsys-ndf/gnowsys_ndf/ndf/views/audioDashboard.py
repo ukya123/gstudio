@@ -43,3 +43,22 @@ def audioDashboard(request, group_id, audio_id=None):
     already_uploaded=request.GET.getlist('var',"")
     variable = RequestContext(request, {'audioCollection': audio_col,'already_uploaded':already_uploaded,'groupid':group_id,'group_id':group_id })
     return render_to_response(template, variable)
+
+@get_execution_time
+def voice_response(request, group_id, audio_id=None):
+
+    '''
+    fetching audio files acording to group name
+    '''
+    try:
+        group_id = ObjectId(group_id)
+    except:
+        group_name, group_id = get_group_name_id(group_id)
+
+    # audio_col = node_collection.find({'_type': 'File', 'member_of': {'$all': [ObjectId(audio_id)]}, 'group_set': {'$all': [ObjectId(group_id)]}})
+    # print "***********audio_col",audio_col
+    template = "ndf/voice-response.html"
+    # already_uploaded=request.GET.getlist('var',"")
+    variable = RequestContext(request, {'groupid':group_id,'group_id':group_id })
+    return render_to_response(template, variable)
+
