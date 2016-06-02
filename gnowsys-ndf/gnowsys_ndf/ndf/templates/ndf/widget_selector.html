@@ -4,7 +4,8 @@
 HOW TO USE
 
 - EXAMPLE:
-    {% include 'ndf/widget_selector.html' with for='apps_to_set' all_options=all_gapps selected_options=group_gapps oneline_element=true %}
+    {% include 'ndf/widget_selector.html' with for='apps_to_set' all_options=all_gapps selected_options=group_gapps 428
+    =true %}
 
     where,
 
@@ -161,7 +162,7 @@ HOW TO USE
 
 <div class="selector-widget" id="{{for}}-selector-widget">
 
-  <div class="row">
+  <div class="row timepass">
     <div class="small-10 medium-12 columns">
       <div class="select-search-container" data-selector-widget-for="{{for}}">
         <i class="fi-play" ></i>
@@ -170,36 +171,9 @@ HOW TO USE
       </div>
     </div>
   </div>
+  <div class="to-be-selected hide" data-selector-widget-for="{{for}}">
+  </div>
 
-  <div class="row">
-    <div class="small-12 medium-12 medium-centered columns">
-      <div class="to-be-selected hide" data-selector-widget-for="{{for}}">
-
-      {% for each_opt in all_options|dictsort:'name' %}
-
-        <div class="item"
-          data-title="{{each_opt.name}}"
-          data-description="{{each_opt.content_org|default_if_none:''}}"
-          title="{{each_opt.content_org|default_if_none:each_opt.name}}"
-          data-value="{{each_opt.pk}}"
-          data-selector-widget-for="{{for}}">
-
-          <div class="row">
-            <div class="small-12 columns">
-              <div class="item-title">
-                {{each_opt.name}}
-              </div>
-              <div class="item-description">
-                {{each_opt.content_org|default_if_none:''|safe|truncatewords:5}}
-              </div>
-            </div>
-          </div>
-
-        </div>
-      {% endfor %}
-
-      </div>
-    </div>
   </div>
 
 </div>
@@ -423,9 +397,55 @@ HOW TO USE
 
 
   searchText.onfocus = showOptionItems;
+  is_add_buddy = "{{is_add_buddy}}"
   // searchText.onblur = hideOptionItems;
   // searchText.onchange = searchOnItems;
-  searchText.oninput = searchOnItems;
+  if(is_add_buddy ){
+    
+    jQuery('.search-text').on('input', function() {
+      search_text_val = $('.search-text').val();
+      search_text_val_length = $('.search-text').val().length;
+      // do your stuff
+      var counter = 0;
+      if(search_text_val_length >=3 ){
+
+        $.ajax({
+                  type: "GET",
+                  url: "{% url 'search_buddy_list' group_id %}",
+                  datatype: "json",
+                  data:{
+                          search_string : search_text_val 
+                    },
+                success: function(data) {
+                  data = JSON.parse(data);
+                    parent_div = $(".timepass");
+                    parent_div.append(createHTML(data));
+                   
+                  // for(var i in data){
+                  //   var id = data[i]._id;
+                  //   var name = data[i].name;
+                  //   var content_org = data[i].content_org;
+                  //   // $(".item").attr("data-value", id);
+                  //   // $(".item").attr("data-title", name);
+                  //   // $(".item").attr("data-description", content_org);
+                  //   // $(".item").attr("title", name);
+                  //   // $(".item").attr("data-selector-widget-for", "{{for}}");
+                  // }
+                  
+
+                }
+
+          });
+      }
+
+
+    });
+
+  }
+  else{
+    searchText.oninput = searchOnItems;
+
+  }
   searchText.onkeydown = function (e) { if(e.keyCode == 13) return false; };
 
 
@@ -618,5 +638,17 @@ HOW TO USE
       $(".selected-items").sortable({revert: true, scroll: true});
     })
   };
+
+
+  function createHTML(data)
+  {
+      alert("here"+data);
+      var htmlReply = "<div class='row'>"
+          + data[i].name
+      + "</div>"
+      alert(htmlReply);
+    return htmlReply;
+  }
+
 
 </script>

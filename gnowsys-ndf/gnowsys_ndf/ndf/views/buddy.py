@@ -8,7 +8,7 @@ from django.shortcuts import render_to_response  #, render
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-
+from gnowsys_ndf.ndf.models import NodeJSONEncoder
 try:
     from bson import ObjectId
 except ImportError:  # old pymongo
@@ -48,14 +48,7 @@ def list_buddy(request, group_id):
     # filter_authors = [ObjectId(auth_oid)for auth_oid in buddies_authid_list]
 
     all_inst_users = User.objects.filter(username__iendswith=GSTUDIO_INSTITUTE_ID)
-    all_inst_authors = node_collection.find({
-                                            '_type': u'Author',
-                                            # '_id': {'$nin': filter_authors},
-                                            'name': {
-                                                '$regex': GSTUDIO_INSTITUTE_ID + '$'
-                                                },
-                                            'created_by': {'$ne': request.user.id}
-                                            })
+    all_inst_authors = []
     # print all_inst_authors.count()
 
 
@@ -69,6 +62,58 @@ def list_buddy(request, group_id):
 
     return render_to_response(template, variable)
 
+@login_required
+def search_buddy_list(request, group_id):
+
+    '''
+    fetching all buddies.
+    '''
+    # try:
+    #     group_id = ObjectId(group_id)
+    # except:
+    #     group_name, group_id = get_group_name_id(group_id)
+
+    search_string = request.GET.get('search_string', '')
+    result_set = []
+    # buddy_list = ['']
+    print "\n\n\nsearch_string",search_string
+    if not search_string:
+        search_string = ""
+
+    buddies_authid_name_dict= request.session.get('buddies_authid_name_dict', {})
+    # print "buddies_authid_name_dict : ", buddies_authid_name_dict
+    buddies_authid_list     = request.session.get('buddies_authid_list', [])
+    # print "buddies_authid_list : ", buddies_authid_list
+
+    # filter_authors = [ObjectId(auth_oid)for auth_oid in buddies_authid_list]
+
+    all_inst_users = User.objects.filter(username__iendswith=GSTUDIO_INSTITUTE_ID)
+    all_inst_authors = node_collection.find({
+                                            '_type': u'Author',
+                                            # '_id': {'$nin': filter_authors},
+                                            'name': {
+                                                '$regex': search_string
+                                                },
+                                            'created_by': {'$ne': request.user.id}
+                                            })
+    print all_inst_authors
+    for each in all_inst_authors:
+        response_dict = {}
+        response_dict["_id"] = str(each._id)
+        response_dict["name"] = each.name
+        response_dict["content_org"] = each.content_org
+        result_set.append(response_dict)
+    print "\n\n\nresult_set",result_set
+
+    # template = 'ndf/buddy_list.html'
+
+    # variable = RequestContext(request, {
+    #                                 "group_id": group_id, 'all_inst_users': all_inst_authors,
+    #                                 'buddies_id_name_dict': buddies_authid_name_dict,
+    #                                 'buddies_id_list': buddies_authid_list
+    #                             })
+
+    return HttpResponse(json.dumps(result_set))
 
 @login_required
 @get_execution_time
