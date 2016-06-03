@@ -171,8 +171,6 @@ HOW TO USE
       </div>
     </div>
   </div>
-  <div class="to-be-selected hide" data-selector-widget-for="{{for}}">
-  </div>
 
   <div class="row content_list">
     <div class="small-12 medium-12 medium-centered columns">
@@ -288,7 +286,7 @@ HOW TO USE
   function detachEvent() { return false; }
 
   function addToSelection () {
-
+    console.log(this);
     // creating new div element
     var selDiv = document.createElement('div');
     // var linebreak = document.createElement('br');
@@ -324,8 +322,7 @@ HOW TO USE
   }
 
   for (var i = sItems.length - 1; i >= 0; i--) {
-    sItems[i].onclick = addToSelection;
-  }
+HJShjgHJGASXHJg  }
 
   for (var i = 0; i < selected_options.length; i++) {
     var temp_item = toBeSelected.querySelector('.item[data-value="'+ selected_options[i] +'"]');
@@ -432,53 +429,7 @@ HOW TO USE
   if(is_add_buddy ){
     
     jQuery('.search-text').on('input', function() {
-      search_text_val = $('.search-text').val();
-      search_text_val_length = $('.search-text').val().length;
-      // do your stuff
-      var counter = 0;
-      if(search_text_val_length >=3 ){
-
-        $.ajax({
-                  type: "GET",
-                  url: "{% url 'search_buddy_list' group_id %}",
-                  datatype: "json",
-                  data:{
-                          search_string : search_text_val 
-                    },
-                success: function(data) {
-                  data = JSON.parse(data);
-                  if(data[0]){
-                    
-                    parent_div = $(".timepass");
-                    content_list_div = $(".content_list");
-                    content_list_div.remove();
-                    content_list_div.remove();
-                    parent_div.after(createHTML(data));
-                  }
-                  else{
-                    content_list_div.remove();
-                    $('.search-text').val(''); 
-                    alert("No such records found");
-                    content_list_div.remove();
-                  }
-
-                  // for(var i in data){
-                  //   var id = data[i]._id;
-                  //   var name = data[i].name;
-                  //   var content_org = data[i].content_org;
-                  //   // $(".item").attr("data-value", id);
-                  //   // $(".item").attr("data-title", name);
-                  //   // $(".item").attr("data-description", content_org);
-                  //   // $(".item").attr("title", name);
-                  //   // $(".item").attr("data-selector-widget-for", "{{for}}");
-                  // }
-                  
-
-                }
-
-          });
-      }
-
+      search_buddy();
 
     });
 
@@ -679,22 +630,81 @@ HOW TO USE
       $(".selected-items").sortable({revert: true, scroll: true});
     })
   };
+function search_buddy (){
+   search_text_val = $('.search-text').val();
+      search_text_val_length = $('.search-text').val().length;
+      // do your stuff
+      var counter = 0;
 
+        $.ajax({
+                  type: "GET",
+                  url: "{% url 'search_buddy_list' group_id %}",
+                  datatype: "json",
+                  data:{
+                          search_string : search_text_val 
+                    },
+                success: function(data) {
+                  data = JSON.parse(data);
+                  if(data[0]){
+                    
+                    parent_div = $(".timepass");
+                    content_list_div = $(".content_list");
+                    content_list_div.remove();
+                    content_list_div.remove();
+                    parent_div.after(createHTML(data));
+                  }
+                  else{
+                    content_list_div = $(".content_list");
+                    content_list_div.remove();
+                    $('.search-text').val(''); 
+                    alert("No such records found");
+                    // content_list_div.remove();
+                  }
+
+                  // for(var i in data){
+                  //   var id = data[i]._id;
+                  //   var name = data[i].name;
+                  //   var content_org = data[i].content_org;
+                  //   // $(".item").attr("data-value", id);
+                  //   // $(".item").attr("data-title", name);
+                  //   // $(".item").attr("data-description", content_org);
+                  //   // $(".item").attr("title", name);
+                  //   // $(".item").attr("data-selector-widget-for", "{{for}}");
+                  // }
+                  
+
+                },
+                complete: function(){
+                  console.log("it worked");
+                  var sItems = $sa('#' + selectorWidgetID + ' .to-be-selected' + ' .item');
+                  for (var i = sItems.length - 1; i >= 0; i--) {
+                    sItems[i].onclick = addToSelection;
+                    }
+                }
+
+          });
+
+}
 
   function createHTML(data)
   {
       var create_list = '<div class="row content_list">'
                       +'<div class="small-12 medium-12 medium-centered columns">'
-                        +'<div class="to-be-selected onclick="addToSelection()" hide" data-selector-widget-for="{{for}}">'
+                        +'<div class="to-be-selected "  hide" data-selector-widget-for="{{for}}">'
                           for(var i in data){
                               // create_list +=  '<div>' +  data[i].name + '</div>'
-                            create_list += '<div class="item" data-title="' + data[i].name +'" data-description="' + data[i].content_org + '" title="'+data[i].name+'" data-value="'+ data[i]._id+'" data-selector-widget-for="{{for}}">'
+                            create_list += '<div class="item" onclick="addToSelection(this)" data-title="' + data[i].name +'" data-description="' + data[i].content_org + '" title="'+data[i].name+'" data-value="'+ data[i]._id+'" data-selector-widget-for="{{for}}">'
 
                               create_list += '<div class="row">'
                                 create_list += '<div class="small-12 columns">'
                                 
                                   create_list += '<div class="item-title">'
                                     create_list += data[i].name
+
+                                  create_list += '</div>'
+
+                                  create_list += '<div class="item-description">'
+                                    create_list += data[i].content_org
 
                                   create_list += '</div>'
                                 
