@@ -158,11 +158,11 @@ HOW TO USE
   }
 
 </style>
-
+<input type="button"  class ="yes" value="yes">
 
 <div class="selector-widget" id="{{for}}-selector-widget">
 
-  <div class="row timepass">
+  <div class="row search-container">
     <div class="small-10 medium-12 columns">
       <div class="select-search-container" data-selector-widget-for="{{for}}">
         <i class="fi-play" ></i>
@@ -286,7 +286,7 @@ HOW TO USE
   function detachEvent() { return false; }
 
   function addToSelection () {
-    console.log(this);
+    // console.log(this);
     // creating new div element
     var selDiv = document.createElement('div');
     // var linebreak = document.createElement('br');
@@ -322,7 +322,8 @@ HOW TO USE
   }
 
   for (var i = sItems.length - 1; i >= 0; i--) {
-HJShjgHJGASXHJg  }
+    sItems[i].onclick = addToSelection;
+  }
 
   for (var i = 0; i < selected_options.length; i++) {
     var temp_item = toBeSelected.querySelector('.item[data-value="'+ selected_options[i] +'"]');
@@ -429,7 +430,11 @@ HJShjgHJGASXHJg  }
   if(is_add_buddy ){
     
     jQuery('.search-text').on('input', function() {
+     search_text_val_length = $('.search-text').val().length; 
+      if(search_text_val_length >= 3){
       search_buddy();
+        
+      }
 
     });
 
@@ -635,7 +640,6 @@ function search_buddy (){
       search_text_val_length = $('.search-text').val().length;
       // do your stuff
       var counter = 0;
-
         $.ajax({
                   type: "GET",
                   url: "{% url 'search_buddy_list' group_id %}",
@@ -647,9 +651,8 @@ function search_buddy (){
                   data = JSON.parse(data);
                   if(data[0]){
                     
-                    parent_div = $(".timepass");
+                    parent_div = $(".search-container");
                     content_list_div = $(".content_list");
-                    content_list_div.remove();
                     content_list_div.remove();
                     parent_div.after(createHTML(data));
                   }
@@ -659,19 +662,7 @@ function search_buddy (){
                     $('.search-text').val(''); 
                     alert("No such records found");
                     // content_list_div.remove();
-                  }
-
-                  // for(var i in data){
-                  //   var id = data[i]._id;
-                  //   var name = data[i].name;
-                  //   var content_org = data[i].content_org;
-                  //   // $(".item").attr("data-value", id);
-                  //   // $(".item").attr("data-title", name);
-                  //   // $(".item").attr("data-description", content_org);
-                  //   // $(".item").attr("title", name);
-                  //   // $(".item").attr("data-selector-widget-for", "{{for}}");
-                  // }
-                  
+                  }                  
 
                 },
                 complete: function(){
@@ -685,7 +676,23 @@ function search_buddy (){
           });
 
 }
+ //  Check if backspace is pressed
+  $('html').keyup(function(e){
+    if(e.keyCode == 8){
+      content_list_div = $(".content_list");
+      search_text_val = $('.search-text').val();
+      if(search_text_val == ''){
+        content_list_div.remove();
+        alert("Please enter search text");
+      }
+      else{
 
+      search_buddy();
+      }
+    
+    }
+  })  
+  
   function createHTML(data)
   {
       var create_list = '<div class="row content_list">'
@@ -693,7 +700,7 @@ function search_buddy (){
                         +'<div class="to-be-selected "  hide" data-selector-widget-for="{{for}}">'
                           for(var i in data){
                               // create_list +=  '<div>' +  data[i].name + '</div>'
-                            create_list += '<div class="item" onclick="addToSelection(this)" data-title="' + data[i].name +'" data-description="' + data[i].content_org + '" title="'+data[i].name+'" data-value="'+ data[i]._id+'" data-selector-widget-for="{{for}}">'
+                            create_list += '<div class="item"  data-title="' + data[i].name +'" data-description="' + data[i].content_org + '" title="'+data[i].name+'" data-value="'+ data[i]._id+'" data-selector-widget-for="{{for}}">'
 
                               create_list += '<div class="row">'
                                 create_list += '<div class="small-12 columns">'
@@ -719,6 +726,8 @@ function search_buddy (){
                     + '</div>'
     return create_list;
   }
-
+$( ".yes" ).click(function() {
+  
+});
 
 </script>

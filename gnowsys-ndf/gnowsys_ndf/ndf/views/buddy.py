@@ -76,7 +76,7 @@ def search_buddy_list(request, group_id):
     search_string = request.GET.get('search_string', '')
     result_set = []
     # buddy_list = ['']
-    print "\n\n\nsearch_string",search_string
+    # print "\n\n\nsearch_string",search_string
     if not search_string:
         search_string = ""
 
@@ -96,14 +96,15 @@ def search_buddy_list(request, group_id):
                                                 },
                                             'created_by': {'$ne': request.user.id}
                                             })
-    print all_inst_authors
+    # print all_inst_authors
     for each in all_inst_authors:
         response_dict = {}
         response_dict["_id"] = str(each._id)
         response_dict["name"] = each.name
         response_dict["content_org"] = each.content_org
+        response_dict["buddies_id_list"] = buddies_authid_list
         result_set.append(response_dict)
-    print "\n\n\nresult_set",result_set
+    # print "\n\n\nresult_set",result_set
 
     # template = 'ndf/buddy_list.html'
 
