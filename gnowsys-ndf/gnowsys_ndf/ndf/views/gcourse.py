@@ -2203,17 +2203,7 @@ def course_gallery(request, group_id,node_id=None,page_no=1):
                                                     'member_of': gst_page._id,
                                                 },
                                             ],
-                                            
-                                                '$or': [
-                                                        {'access_policy': u"PUBLIC"},
-                                                        {
-                                                            '$and': [
-                                                            {'access_policy': u"PRIVATE"},
-                                                            {'created_by': request.user.id}
-                                                        ]
-                                                     }
-                                                    ],
-                                                # 'collection_set': {'$exists': "true", '$not': {'$size': 0} }
+                                            # 'collection_set': {'$exists': "true", '$not': {'$size': 0} }
                                             },
                                         {
                                             'name': 1,
