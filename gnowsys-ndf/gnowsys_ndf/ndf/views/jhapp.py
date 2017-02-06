@@ -12,7 +12,8 @@ except ImportError:  # old pymongo
 ''' -- imports from application folders/files -- '''
 # from gnowsys_ndf.ndf.models import Node, GRelation, GSystemType, File, Triple
 from django.core.urlresolvers import reverse
-from gnowsys_ndf.ndf.models import node_collection
+# from gnowsys_ndf.ndf.models import node_collection,check_if_file_exists
+from gnowsys_ndf.ndf.models import *
 from gnowsys_ndf.ndf.templatetags.ndf_tags import check_is_gstaff
 from gnowsys_ndf.settings import *
 
@@ -41,7 +42,6 @@ def uploadjhapp(request, group_id):
 @login_required
 @get_execution_time
 def savejhapp(request,group_id):
-  from gnowsys_ndf.ndf.views.file import save_file
   try:
       group_id = ObjectId(group_id)
   except:
@@ -56,16 +56,22 @@ def savejhapp(request,group_id):
   
   import zipfile
   from gnowsys_ndf.ndf.views.filehive import write_files
+  
+  uploaded_files = request.FILES.getlist('filehive', [])
+
   is_user_gstaff = check_is_gstaff(group_obj._id, request.user)
   
   fileobj_list = write_files(request, group_id)
   fileobj_id = fileobj_list[0]['_id']
   file_node = node_collection.one({'_id': ObjectId(fileobj_id) })
   
+  if file_node.member_of_names_list[0] in GSTUDIO_SUPPORTED_JHAPPS:
+    if "index.html" in file_node.if_file.original.relurl:
+      return HttpResponseRedirect( reverse('file_detail', kwargs={"group_id": group_id,'_id':fileobj_id}))
+
   if sel_jhapp_gst._id:
     file_node.member_of = [ObjectId(sel_jhapp_gst._id)]
   
-  uploaded_files = request.FILES.getlist('filehive', [])
   zip_path = file_node.if_file.original['relurl']
   zip_split_path = zip_path.split('.')
   un_zip_path = zip_path.split('/')
