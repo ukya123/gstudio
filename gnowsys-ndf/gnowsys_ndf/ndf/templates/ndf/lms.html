@@ -13,6 +13,10 @@
 
  
  <!-- LMS.html -->
+{% comment %}
+
+ {% include "ndf/buddy.html" %}
+{% endcomment %}
 
 {% include 'ndf/widget_user_access_modal.html' %}
 
@@ -102,7 +106,6 @@
     <li>
       <a href="{% url 'course_notebook' group_id %}" {% if title == 'notebook' %}class="selected"{% endif %}>Notebook</a>
     </li>
-    <li> Gallery </li>
   </ul>
 </div>
 
