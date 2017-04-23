@@ -173,14 +173,14 @@ def landing_page(request):
 #             return "/home/"
 
 @get_execution_time
-def help_page_view(request,page_id):
-    page_obj = Node.get_node_by_id(page_id)
+def help_page_view(request):
+    # page_obj = Node.get_node_by_id(page_id)
     return render_to_response(
                                         "ndf/help_page.html",
                                         {
-                                            "group_id": page_id,
+                                            # "group_id": page_id,
                                             'title': 'Help',
-                                            'page_obj':page_obj
+                                            # 'page_obj':page_obj
                                         },
                                         context_instance=RequestContext(request)
                                     )
