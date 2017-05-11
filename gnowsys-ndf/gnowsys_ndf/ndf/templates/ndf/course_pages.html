@@ -67,6 +67,20 @@
         <div class="row activity-detail-content">
             {% include "ndf/node_ajax_content.html" with node=activity_node %}
         </div>
+        <div class="small-10 columns" id="view-discussion" style="overflow-x:auto;overflow-y:hidden">
+            <!-- discussion content area -->
+            {% if user.is_authenticated %}
+            {% get_thread_node activity_node.pk as thread_node %}
+            {% if thread_node and "QuizItemEvent" not in activity_node.member_of_names_list %}
+                {% get_disc_replies thread_node group_id global_disc_all_replies as all_replies %}
+                {% get_node thread_node as thread_node_obj %}
+                {% include 'ndf/in-line-texteditor.html' with node=thread_node_obj var_name="content_org" allow_to_comment=True ckeditor_toolbar="LMSStudentsToolbar" %}
+            {% endif %}
+            {% endif %}
+
+
+            <!-- END of discussion content area -->
+      </div>
         <div id="info-page-area">
                     
         </div>

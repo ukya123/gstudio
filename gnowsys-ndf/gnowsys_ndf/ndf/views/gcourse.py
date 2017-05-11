@@ -3442,6 +3442,8 @@ def save_course_page(request, group_id):
         page_obj.content = unicode(content)
         page_obj.created_by = request.user.id
         page_obj.save(groupid=group_id)
+        discussion_enable_at = node_collection.one({"_type": "AttributeType", "name": "discussion_enable"})
+        create_gattribute(page_obj._id, discussion_enable_at, True)
         return HttpResponseRedirect(reverse("view_course_page",
          kwargs={'group_id': group_id, 'page_id': page_obj._id}))
 
