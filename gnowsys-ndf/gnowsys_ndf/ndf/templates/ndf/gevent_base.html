@@ -74,7 +74,7 @@
                         </li>
                         <li >
 
-                            <a href="{% url 'unit_detail' group_id %}" {% if title == 'unit_authoring' %}class="selected"{% endif %}>{% trans "Lessons" %}</a>
+                            <a href="{% url 'unit_detail' group_id %}" {% if title == 'unit_authoring' %}class="selected"{% endif %}> {% if group_object.project_config.tab_name  %} {{group_object.project_config.tab_name}} {% else %} Lessons {% endif %} </a>
 
 
                         </li>
@@ -149,11 +149,9 @@
                     </div>
                     <div id="unit_authoring_div">
                         {% if title == 'unit_authoring' %}
-                        {% include "ndf/unit_structure.html" %}
-                        {% comment %}
+                        {# {% include "ndf/unit_structure.html" %} #}
                         {% get_node_hierarchy group_object as node_hierarchy %}
                             {% include "ndf/section_subsection.html" with unit_structure=node_hierarchy unit_obj=group_object group_id=group_object.pk section_name=group_object.project_config.section_name sub_section_name="Activity"  %}
-                        {% endcomment %}
                         {% endif %}
 
                     </div>
