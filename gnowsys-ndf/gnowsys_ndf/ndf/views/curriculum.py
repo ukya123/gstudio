@@ -197,6 +197,8 @@ def curriculum_create_edit(request, group_id,curriculum_id=None):
                         hierarchy['children'].append({'class': 'create_division', 'name': 'Add Division', 'type': 'division'})
                     else:
                         hierarchy.update({'children':[{'class': 'create_division', 'name': 'Add Division', 'type': 'division'}]})
+                elif hierarchy['node_type'] == "Topic":
+                    hierarchy['isLeaf'] = True
                     _update_curr_hierarchy(hierarchy['children'])
 
     try:
