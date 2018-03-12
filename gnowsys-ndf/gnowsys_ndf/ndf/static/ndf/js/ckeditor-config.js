@@ -13,6 +13,7 @@
 	   CKEDITOR.plugins.addExternal('addJhapp',basePath+'ndf/js/ckPlugins/addJhapp/','plugin.js');
 	   CKEDITOR.plugins.addExternal('mathjax',basePath+'ndf/bower_components/ckeditor/plugins/mathjax/','plugin.js');
 	   CKEDITOR.plugins.addExternal('font',basePath+'ndf/bower_components/ckeditor/plugins/font/','plugin.js');
+	   CKEDITOR.plugins.addExternal('youtube','/static/ndf/bower_components/ckeditor-youtube-plugin/youtube/','plugin.js');
 	})
 	();
     CKEDITOR.config.bodyId = 'scstyle';
@@ -35,7 +36,11 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'styles', items: [ 'Format', 'FontSize' ] },
 		{ name: 'paragraph', items : [ 'NumberedList','BulletedList','Mathjax','-','Outdent','Indent','-','Blockquote','JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock' ] },
 		{ name: 'links', items : [ 'Link','Unlink' ] },
+<<<<<<< HEAD
 		{ name: 'tools', items : [ 'addImage','addAudio','addVideo','addJhapp','Source','Anchor','Maximize','-'] },
+=======
+		{ name: 'tools', items : [ 'addImage','addAudio','addVideo','addJhapp','Youtube','Source','Maximize','-'] },
+>>>>>>> b5e58753fd1285bd4c4005c4ac4dc412afd0a134
 		{ name: 'document', items: [ '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
 		
 
@@ -51,7 +56,11 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'links', items : [ 'Link','Unlink'] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker' ]},
 		{ name: 'insert', items : [ 'Flash','Iframe' ] },
+<<<<<<< HEAD
 		{ name: 'tools', items : [ 'addImage','addAudio','addVideo','addJhapp','Source','Anchor', 'Maximize','-','closebtn'] },
+=======
+		{ name: 'tools', items : [ 'addImage','addAudio','addVideo','addJhapp','Youtube','Source', 'Maximize','-','closebtn'] },
+>>>>>>> b5e58753fd1285bd4c4005c4ac4dc412afd0a134
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'styles' },
 	];
@@ -107,7 +116,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
-	config.extraPlugins = 'addImage,closebtn,addAudio,addVideo,addJhapp,mathjax,justify,font';
+	config.extraPlugins = 'addImage,closebtn,addAudio,addVideo,addJhapp,mathjax,justify,font,youtube';
 	config.allowedContent = true;
 
 };

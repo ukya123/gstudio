@@ -9,7 +9,6 @@
 {% elif first_arg %}
     <a href='{% url url_name first_arg %}{{search_url_text|safe}}'>
 {% endif %}
-
 <div class="module_card">
     <div class="card_banner">
         {% get_relation_value node.pk 'has_banner_pic' as grel_dict %}
@@ -27,24 +26,22 @@
         </h4>
         </div>
         <div class="card_section">
-            <span class="card_label">
-                {% trans "Subject" %}: {{node_attrs.educationalsubject}}
-            </span class="card_label">
-            <p class="ellipsis"></p>
-            <span class="card_label">
-                {% trans "No. of Units" %}: {{node.collection_set|length}}
-            </span class="card_label">
-            <p class="ellipsis"></p>
+            <p class="ellipsis">
+                <span class="card_label">
+                    {% trans "Subject" %}: {{node_attrs.educationalsubject}}
+                </span class="card_label">
+            </p>
+            <p class="ellipsis">
+                <span class="card_label">
+                    {% trans "No. of Units" %}: {{node.collection_set|length}}
+                </span class="card_label">
+            </p>
+            <p class="ellipsis">
                 <span class="card_label">
                    {% trans "Class / Grade" %} : {% for each_attr in node_attrs.educationallevel %}{{each_attr|slice:"5:"}}{% if not forloop.last %}, {%endif %} {% endfor %}
                 </span class="card_label">
-            <p class="ellipsis"></p>
-                <!-- <span class="card_label">
-                    Units
-                </span class="card_label"> -->
-            <p class="ellipsis"></p>
+            </p>
         </div>
-    </a>
         <div class="card_section">
             {% if not is_gstaff %}
             {% if request.user.is_authenticated %}
