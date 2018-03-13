@@ -293,7 +293,6 @@
 
     <div class="small-12 columns">
         <div class="course_editor ">
-<<<<<<< HEAD
           <div class="small-3 columns colapse-container index">
             <div class="course_tree ">
               <a>
@@ -304,19 +303,7 @@
                 </div>
               </a>
               <div class="activity-title"  style="height: 90vh;">
-=======
-          <div class="small-3 columns hide-for-small hide-for-medium">
-            <div class="course_tree">
-              <div class="lesson-title" title="{{trans_lesson_name}}">
-                  <b>{{trans_lesson_name}}</b>
-                  {% comment %}
-                  {% if allow_finish_lesson %}
-                    <a href="#" class="purple-btn finish-lesson right">Finish</a>
-                  {% endif %}
-                  {% endcomment %}
-              </div>
-              <div class="activity-title">
->>>>>>> b5e58753fd1285bd4c4005c4ac4dc412afd0a134
+
               {% for each in act_list %}
                   {% for k,v in each.items  %}
                     <li  {% if v.basenodeid == activityid %} class="active" {% endif %}> <a href="{% url 'activity_player_detail' group_id lesson_node.pk v.basenodeid %}"> {% firstof v.altnames v.name %} </a></li>
@@ -325,13 +312,8 @@
               </div>
               </div>
           </div>
-<<<<<<< HEAD
           
           <div class="small-8 columns section-expand">
-=======
-  
-
->>>>>>> b5e58753fd1285bd4c4005c4ac4dc412afd0a134
 
           
           <div class="small-12 medium-12 large-8 columns">
@@ -448,20 +430,13 @@
 
   // start of document.ready()
   $(document).ready(function(event) {
-<<<<<<< HEAD
     var $container = $('.course_tree'),
     $scrollTo = $('.activity-title').children('li.active');
     $container.scrollTop(
         $scrollTo.offset().top - $container.offset().top- $container.offset().top + $container.scrollTop()
     );
 
-=======
 
-      var $container = $('.course_tree'),
-      $scrollTo = $('.activity-title').children('li.active');
-      $container.scrollTop(
-          $scrollTo.offset().top - $container.offset().top- $container.offset().top + $container.scrollTop()
-      );
     /*
 >>>>>>> b5e58753fd1285bd4c4005c4ac4dc412afd0a134
     var iframes = document.getElementsByTagName('iframe');
