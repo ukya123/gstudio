@@ -1,18 +1,18 @@
+{% load i18n %}
+{% load ndf_tags %}
+{% get_group_object group_id as group_object %}
 <div class="course-content">
-    <button class="accordion">Overview</button>
+    <button class="accordion">Overview </button>
     <div class="panel">
          <div class="about-course">
             <h5>Description:</h5>
               <div class="course-desc" id="scstyle">
-            {% comment %}
                 {{group_object.content|default:'No description added yet.'|safe}}
-            {% endcomment %}
               </div>
               <div>
                 <u><a class="show-more hide">Show more</a></u>
               </div>
               <br/>
-            {% comment %}
             {% if group_object.tags %}
                 <h5>Tags:</h5>
                 {% for tag in group_object.tags %}
@@ -22,7 +22,6 @@
             {% else %}
                 <!-- <i><small><label class="tag-ele">{% trans "No tags defined yet!" %}</label></small></i> -->
             {% endif %}
-            {% endcomment %}
         </div>
 
         <div class="about-course">
@@ -43,7 +42,6 @@
             <br/>
         </div>
        
-        {% comment %}
         {% if show_analytics_notifications %}
           <div class="medium-3 rows">
             <div class="left">
@@ -74,7 +72,6 @@
             <br/>
           {% endif %}
         {% endif %}
-      </div>
 
       {% if educationallevel_val %}
         <div class="about-course">
@@ -132,8 +129,8 @@
           <br/>
           <br/>
       </div>
-    {% endcomment %}
-    </div>
+    </div>  
+  </div>
     <div id="tree1">
     </div>
 </div>
