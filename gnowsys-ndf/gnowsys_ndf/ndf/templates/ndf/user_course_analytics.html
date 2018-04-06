@@ -111,6 +111,49 @@
 </style>
 <script src="/static/ndf/bower_components/d3/d3.js"></script>
 
+<script src="/static/ndf/bower_components/pdfmake/build/pdfmake.min.js"></script>
+<script src="/static/ndf/bower_components/html2canvas/build/html2canvas.js"></script>
+<script src="/static/ndf/bower_components/pdfmake/build/vfs_fonts.js"></script>
+
+<a class=" download-progress-report" style="padding-left: 38px"><i class="fi-archive"></i> Download </a><br/>
+<div class="user-analytics-data" id="user-pr-report">
+<div class="pre-analytics-msg-div text-center hide">
+   {% trans "Your analytics is loading. Please wait." %} 
+</div>
+<div class="row">
+  <h4 class="text-center"><u><b>PROGRESS REPORT</b></u></h4>
+  <div class="small-6 columns">
+    <h3 class="inner left-space"> {{ group_name }} </h3><br/>
+    <h3 class="inner left-space"> User:  <h3 class="inner left-space"> {{username}} </h3></h3>
+  </div>
+  <div class="small-6 columns">
+    <h4 class="inner">Total points gained:  <h3 class="course-metric-count users_points inner left-space">{{users_points}}</h3></h4>
+  </div>
+</div><hr/>
+<div class="course-overview-container">
+  <div class="row collapse course-overview">
+    <div class="columns small-12 medium-6">
+      <div class="course-status">
+        {% comment %}
+        <h4>{% trans "Course status" %}</h4>
+        {% endcomment %}
+        <div class="row">
+          <div class="small-12 columns">
+            <span class="course-metric-heading">{{level1_lbl}}</span>
+            <h4 class="module_progress_stmt">{{level1_progress_stmt}}</h4>
+            <div class="progress success round">
+              <div class="module_progress_meter meter" style="width:{{level1_progress_meter}}%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
+            <span class="course-metric-heading">{{level2_lbl}}</span>
+            <h4 class='units_progress_stmt'>{{level2_progress_stmt}}</h4>
+            <div class="progress success round">
+              <div class="unit_progress_meter meter" style="width:{{level2_progress_meter}}%"></div>
+            </div>
+
 <!-- new analytics UI -->
       {% if admin_analytics %}
   <script src="/static/ndf/bower_components/DataTables/media/js/jquery.dataTables.js"></script>
@@ -324,6 +367,23 @@
 
 
 <script type="text/javascript">
+
+
+$(document).on('click',".download-progress-report",function(){
+  html2canvas(document.getElementById('user-pr-report'), {
+        onrendered: function (canvas) {
+            var data = canvas.toDataURL();
+            var docDefinition = {
+                content: [{
+                    image: data,
+                    width: 500,
+                }]
+            };
+            pdfMake.createPdf(docDefinition).download("{{group_name|slugify}}-{{username}}.pdf");
+        }
+  });
+})
+
     // pi chart for score points
     function generateGraph(data){
         var dataSet = []
@@ -450,6 +510,7 @@
           else{
             $(".course-points-breakup").html("<i>No points to show Pie Chart</i>")
           }
+
       {% endif %}
       })
 
