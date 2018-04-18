@@ -8,7 +8,7 @@
     /*color: #eeeeee;*/
     /*border-top: 1px solid red;*/
     height: 60px;  /* footer height */
-    padding-top: 500px;
+    /*padding-top: 50px;*/
     display: block;
     margin-top: 20px; /* space between content and footer */
     box-sizing: border-box;
@@ -18,10 +18,16 @@
     /*background-color: gray;*/
     width: 100%!important;
 }
-
-
-
 </style>
+<script type="text/javascript">
+    
+    $( document ).ready(function() {
+    if(document.body.scrollHeight <= 930){
+         $(".footer-clix1").css("padding-top", "600px");
+
+    }
+});
+</script>
 <div class="footer-clix1">
 	<hr>
     <div class="small-7 medium-9 large-10 columns" style="margin-left:122px;">
